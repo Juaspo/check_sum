@@ -2,8 +2,10 @@
 
 import subprocess
 import argparse
+import sys
 
 alg = ["md5sum", "sha1sum", "sha256sum", "sha512sum"]
+provided_hash = None
 
 argparser = argparse.ArgumentParser()
 argparser.add_argument("-f", dest="file", type=str, help="Input file to calculate hash")
@@ -12,12 +14,22 @@ argparser.add_argument("-e", dest="encode", type=str, default=None, help="Encodi
 argparser.add_argument("-a", dest="algorithm", type=int, default=2, help="0=MD5, 1=SHA1, 2=SHA256 (def), 3=SHA512")
 args = argparser.parse_args()
 
+if args.file is None:
+    print("No file provided. use -f flag to provide filepath or -h for help")
+    sys.exit()
+
+
 if args.encode is None:
     result = subprocess.run([alg[args.algorithm], args.file], stdout=subprocess.PIPE)
 else:
     result = subprocess.run([args.encode, args.file], stdout=subprocess.PIPE)
+
 calculated_hash = (str(result.stdout, 'utf-8').split(' ', 1)[0]).upper()
-provided_hash = args.hash.upper()   
+
+if args.hash is None:
+    provided_hash = "None"
+else:
+    provided_hash = args.hash.upper()   
 
 if calculated_hash == provided_hash:
     print(f"Hash ok!\n{calculated_hash}")
