@@ -7,7 +7,7 @@ alg = ["md5sum", "sha1sum", "sha256sum", "sha512sum"]
 
 argparser = argparse.ArgumentParser()
 argparser.add_argument("-f", dest="file", type=str, help="Input file to calculate hash")
-argparser.add_argument("-H", dest="hash", type=str, help="Hash string to compare with")
+argparser.add_argument("-c", dest="hash", type=str, help="Hash string to compare with")
 argparser.add_argument("-e", dest="encode", type=str, default=None, help="Encoding to use for hash calculation")
 argparser.add_argument("-a", dest="algorithm", type=int, default=2, help="0=MD5, 1=SHA1, 2=SHA256 (def), 3=SHA512")
 args = argparser.parse_args()
